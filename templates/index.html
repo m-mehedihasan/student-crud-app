@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+{% block content %}
+	<div class="row ">
+		<div class="col-md-12 bg-secondary text-center justify-content-center">
+			<h3 class="text-white">Student CRUD Application</h3>
+		</div>
+			<a href="/reload" class="btn btn-light font-weight-bold">Refresh
+			<i class="fa fa-refresh"></i>
+			</a>
+		
+	</div>
+	<br> <br>
+	<div class="form-group row">
+		<div class="col-md-4">
+			
+		</div>
+		<div class="col-md-4">
+			<div class="form-control-label badge-pill bg-info text-center text-white">
+				<h4>Data Create/Update Area</h4>
+			</div>
+			
+			<div class="text-left">
+				<!-- hide button -->
+				<a href="/hide" class="btn btn-danger">Hide Window
+					<i class="fa fa-undo"></i>
+				</a>
+				<!-- show edit window -->
+				<a href="/create" class="btn btn-primary">Add Data
+					<i class="fa fa-plus-circle"></i>
+				</a>
+			</div>
+			<br>
+			{% if show_edit_window %}
+				
+				<form action="/save" method="POST" role="form">
+					{% csrf_token %}
+					<div class="table-responsive">
+						<table class="table">
+							{% for field in form %}
+								<tr>
+									<td>
+										<div class="form-control-label">
+											{{field.label}}
+										</div>
+									</td>
+									<td>
+										{{field}}
+									</td>
+								</tr>
+							{% endfor %}
+						</table>
+					</div>
+					<button type="submit" name="submit" id="id_submit" class="form-inline btn btn-primary">Submit</button>
+					<br>
+				</form>
+			{% endif %}
+			
+			{% if show_update_window %}
+				
+				<form action="/save_update" method="POST" role="form">
+					{% csrf_token %}
+					<div class="table-responsive">
+						<table class="table">
+							{% for field in form %}
+								<tr>
+									<td>
+										<div class="form-control-label">
+											{{field.label}}
+										</div>
+									</td>
+									<td>
+										{{field}}
+									</td>
+								</tr>
+							{% endfor %}
+						</table>
+					</div>
+					<button type="submit" name="submit" id="id_submit" class="form-inline btn btn-primary" value="Update">Update</button>
+					<br>
+				</form>
+			{% endif %}
+
+
+		</div>
+	</div>
+	<div class="form-group row">
+		<div class="col-md-12">
+			<div class="form-control-label badge-pill bg-success text-center text-white">
+				<h4>Data Read/Delete Area</h4>
+			</div>
+			<br>
+			<div class="table-responsive">
+				<table class="table table-striped">
+					<thead class="bg-info  text-white">
+						<tr>
+							<th>
+								Roll
+							</th>
+							<th>
+								First Name
+							</th>
+							<th>
+								Last Name
+							</th>
+							<th>
+								Class
+							</th>
+							<th>
+								E-mail
+							</th>
+							<th>
+								Operation
+							</th>
+						</tr>
+					</thead>
+					{% for student in students %}
+						<tr>
+							<td>
+								{{student.roll}}
+							</td>
+							<td>
+								{{student.first_name}}
+							</td>
+							<td>
+								{{student.last_name}}
+							</td>
+							<td>
+								{{student.Class}}
+							</td>
+							<td>
+								{{student.email}}
+							</td>
+							<td>
+								<a href="/update/{{student.id}}" class="btn btn-info">Edit</a>
+								<a href="/delete/{{student.id}}" class="btn btn-danger">Delete</a>
+							</td>
+						</tr>
+					{% endfor %}
+				</table>
+			</div>
+		</div>
+	</div>
+{% endblock %}
